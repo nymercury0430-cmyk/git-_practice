@@ -4,20 +4,14 @@ session_start();
 
 header('X-FRAME-OPTIONS:DENY');
 
-
-if(!empty($_SESSION)){
-  echo '<pre>';
-  var_dump($_SESSION);
-  echo '</pre>';
-}
-
-
-
+// if(!empty($_SESSION)){
+//   echo '<pre>';
+//   var_dump($_SESSION);
+//   echo '</pre>';
+// }
 function h($str){
   return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
 }
-
-
 $pageFlag = 0;
 if(!empty($_POST['btn_confirm'])){
   $pageFlag = 1;
@@ -25,10 +19,6 @@ if(!empty($_POST['btn_confirm'])){
 if(!empty($_POST['btn_submit'])){
   $pageFlag = 2;
 }
-
-
-
-
 
 ?>
 
@@ -65,6 +55,14 @@ if(!empty($_POST['btn_submit'])){
 
 <?php if($pageFlag === 2): ?>
 <?php if($_POST['csrf'] === $_SESSION['csrfToken']):?>
+
+<?php
+  require 'mainte/insert.php';
+
+  insertContact($pdo, $_POST);
+?>
+
+
 送信が完了しました。
 <?php unset($_SESSION['csrfToken']);?>
 <?php endif; ?>
